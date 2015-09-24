@@ -7,10 +7,8 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../bower_components/paper-card/paper-card.html">
-<!-- Custom elements -->
-<link rel="import" href="../gdg-base/gdg-chat-behavior.html">
-<link rel="import" href="../gdg-message/gdg-message.html">
+
+
 <dom-module id="gdg-room-detail">
   <template>
     <style>
@@ -26,9 +24,9 @@
       }
     </style>
 
-
     <!-- Toolbar -->
     <paper-toolbar>
+      <paper-icon-button  icon="mail"></paper-icon-button>
       <div class="title">{{selectedRoom.name}}</div>
     </paper-toolbar>
 
@@ -38,22 +36,21 @@
                 items="{{messages}}"
                 as="message">
         <!-- Template item -->
-        <gdg-message  username={{message.user.name}}
-                      picture={{message.user.picture}}
-                      text={{message.text}}>
-        </gdg-message>
+        <paper-item>
+          <paper-item-body two-line>
+            <div>{{message.user}}</div>
+            <div secondary>{{message.text}}</div>
+          </paper-item-body>
+        </paper-item>
       </template>
     </div>
     <!-- Input per nuovo messaggio -->
-    <paper-input label="New Message:" on-keyup="_handleInput" disabled$="{{_disabled(user)}}"></paper-input>
+    <paper-input label="New Message:" on-keyup="_handleInput"></paper-input>
   </template>
 
   <script>
     Polymer({
       is: 'gdg-room-detail',
-      behaviors: [
-        GdgChatBehavior
-      ],
       properties: {
         // Stanza selezionata
         selectedRoom: {
@@ -71,27 +68,26 @@
         messagesLocation: {
           type: String
         },
-        //Utente
+        //User
         user: {
-          type: Object
+          type: Object,
+          value: function(){
+            return {
+              name: 'simone'
+            };
+          }
         }
       },
       //listen to on-keyup event
       _handleInput: function(e) {
         if (e.keyCode == 13) {
-          //Salvo il messaggio
           this.push('messages', {
             text: e.target.value,
-            user: this.fromFbUser(this.user)
+            user: this.user.name
           });
           this.set('lastMessage', e.target.value);
           e.target.value = '';
         }
-      },
-
-      //Controlla se l'input va disabilitato
-      _disabled: function(user){
-        return (!user);
       }
     });
   </script>

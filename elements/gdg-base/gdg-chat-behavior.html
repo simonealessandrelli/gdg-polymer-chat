@@ -1,0 +1,78 @@
+<script>
+/** @polymerBehavior */
+GdgChatBehavior = {
+  properties: {
+    // Array delle stanze caricate da firebase-collection
+    // Host <-> Child
+    // Le modifiche vengono propagate all'Host
+    rooms: {
+      type: Array,
+      notify: true
+    },
+
+    // Array dei messaggi selezionati da firebase-collection
+    // relativi alla stanza selezionata
+    // Le modifiche vengono propagate all'Host
+    messages: {
+      type: Array,
+      notify: true
+    },
+
+    // Utente login
+    user: {
+      type: Object,
+      notify: true,
+    },
+
+    // Stanza selezionata.
+    selectedRoom: {
+      type: Object
+    },
+
+    //URL firebase
+    fbLocation: String
+
+  },
+  //Calcola l'URL per la query dei messaggi nella stanza
+  //della chat selezionata
+  //Compute binding
+  _computeMessagesLocation: function(fbLocation, room){
+    if (!room) return;
+    return [
+      fbLocation,
+      'rooms',
+      room.__firebaseKey__,
+      'messages'
+    ].join('/');
+  },
+  //Calcola l'URL per la query delle stanze disponibili
+  //in chat.
+  //Compute binding
+  _computeRoomsLocation: function(fbLocation){
+    return [
+      fbLocation,
+      'rooms'
+    ].join('/');
+  },
+  //Costruisce l'oggetto da salvare su firebase
+  fromFbUser: function(user){
+    var userName, userPic, userAuth;
+    if (user){
+      //Controlla il provider
+      if (user.google){
+        //Con google le prendo displayName
+        userName = user.google.displayName;
+        //Immagine profilo
+        userPic = user.google.profileImageURL;
+      }
+      //Oggetto autenticazione
+      userAuth = user.auth;
+    }
+    return {
+      auth: userAuth,
+      name: userName,
+      picture: userPic
+    };
+  }
+};
+</script>

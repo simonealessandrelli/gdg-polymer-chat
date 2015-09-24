@@ -1,13 +1,15 @@
 <!-- Google Web elements-->
 <link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase-auth.html">
+<!-- Neon elements -->
+<link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
 <!-- Paper elements -->
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <!-- Custom elements -->
-<link rel="import" href="../gdg-base/gdg-chat-behavior.html">
+<link rel="import" href="gdg-chat-behavior.html">
 
 <dom-module id="gdg-chat-data">
-  <style>
-  </style>
   <template>
     <!-- Recupera i dati delle stanze dall'URL di firebase -->
     <firebase-collection
@@ -18,22 +20,17 @@
       on-firebase-value="_onRoomsLoaded">
     </firebase-collection>
 
-    <!-- Recupera i dati dei messaggi dall'URL di firebase -->
     <firebase-collection
-      id="messages-collection"
+    id="messages-collection"
       orderByChild="user"
       location="{{_computeMessagesLocation(fbLocation, selectedRoom)}}"
       data="{{messages}}"
       on-firebase-value="_onMessagesLoaded">
     </firebase-collection>
-
   </template>
   <script>
     Polymer({
-
       is: 'gdg-chat-data',
-
-      //Modulo
       behaviors: [
         GdgChatBehavior
       ],

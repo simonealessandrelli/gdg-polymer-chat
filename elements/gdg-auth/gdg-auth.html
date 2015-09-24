@@ -1,0 +1,101 @@
+<!-- Base -->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<!-- Neon elements -->
+<link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
+<!-- Google Web elements-->
+<link rel="import" href="../../bower_components/firebase-element/firebase-auth.html">
+
+<dom-module id="gdg-auth">
+  <style>
+    h2 {
+      text-align: center;
+    }
+    paper-dialog {
+      padding: 32px;
+    }
+    .google-sign-in {
+      display: inline-block;
+      background: #4285f4;
+      color: white;
+      width: 190px;
+      border-radius: 5px;
+      white-space: nowrap;
+    }
+    .google-sign-in:hover {
+      cursor: pointer;
+    }
+    .google-sign-in-icon {
+      background: url('g-normal.png') transparent 5px 50% no-repeat;
+      display: inline-block;
+      vertical-align: middle;
+      width: 42px;
+      height: 42px;
+      border-right: #2265d4 1px solid;
+    }
+    .google-sign-in-label {
+      display: inline-block;
+      vertical-align: middle;
+      padding-left: 42px;
+      padding-right: 42px;
+      font-size: 14px;
+      font-weight: bold;
+      /* Use the Roboto font that is loaded in the <head> */
+      font-family: 'Roboto', sans-serif;
+    }
+  </style>
+  <template>
+    <!-- Elemento per autenticazione -->
+    <firebase-auth id="auth"
+                   location="{{fbLocation}}"
+                   provider="google"
+                   ref="{{ref}}"
+                   user="{{user}}">
+    </firebase-auth>
+    <!-- Pannello -->
+    <paper-dialog modal
+                  opened="{{!user}}"
+                  entry-animation="scale-up-animation"
+                  exit-animation="fade-out-animation">
+      <h2>Please sign in</h2>
+      <div>
+        <div class="google-sign-in" tabindex="0"
+             on-tap="signIn">
+          <span class="google-sign-in-icon"></span>
+          <span class="google-sign-in-label">Google</span>
+        </div>
+      </div>
+    </paper-dialog>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'gdg-auth',
+
+      properties: {
+        //Uri firebase
+        fbLocation: String,
+        //Proprietà utente valorizzata con l'elemento <firebase-auth>
+        //H <-> C
+        //le modifiche si propagano anche all'Host
+        user: {
+          type: Object,
+          notify: true,
+          observer: 'userChanged'
+        }
+      },
+
+      //Esegue l'autenticazione tramite <firebase-auth>
+      signIn: function() {
+       this.$.auth.login();
+      },
+
+      //Esegue il logout
+      signOut: function() {
+        this.ref.unauth();
+        this.user = null;
+      }
+
+    });
+  </script>
+</dom-module>
