@@ -1,11 +1,5 @@
-body, gdg-chat-view {
+body {
  background: #fafafa
  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
  color: #333;
- position: absolute;
- top: 0;
- left: 0;
- bottom: 0;
- right: 0;
- margin: 0;
 }

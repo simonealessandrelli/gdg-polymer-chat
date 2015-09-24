@@ -3,19 +3,28 @@
 <html>
   <head>
     <title>gdg-polymer-chat</title>
-
+  
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <!-- Polyfill -->
     <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+  
     <!-- Custom elements -->
-    <link rel="import" href="elements/gdg-chat-view/gdg-chat-view.html">
+    <link rel="import" href="bower_components/paper-drawer-panel/paper-drawer-panel.html">
+    <link rel="import" href="elements/gdg-room-list/gdg-room-list.html">
+    <link rel="import" href="elements/gdg-room-detail/gdg-room-detail.html">
+  
     <link rel="stylesheet" href="styles.css">
   </head>
-
+  
   <body unresolved>
-    <!-- Chat view -->
-    <gdg-chat-view></gdg-chat-view>
+    <!-- Drawer Panel -->
+    <paper-drawer-panel>
+      <!-- Lista stanze -->
+      <gdg-room-list drawer></gdg-room-list>
+      <!-- Dettaglio stanza con messaggi -->
+      <gdg-room-detail main></gdg-room-detail>
+    </paper-drawer-panel>
   </body>
 </html>

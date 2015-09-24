@@ -1,0 +1,50 @@
+<!-- Paper elements -->
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+<!-- Google web elements -->
+<link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
+
+<dom-module id="gdg-room-list">
+
+  <template>
+    <!-- Style -->
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <!-- Recupera i dati delle stanze dall'URL di firebase -->
+    <firebase-collection
+      orderByChild="name"
+      location="https://gdg-example-chat.firebaseio.com/rooms"
+      data="{{rooms}}"></firebase-collection>
+
+    <!-- Cicla sulla property rooms in binding con firebase -->
+    <template is="dom-repeat"
+              items="{{rooms}}"
+              as="room">
+      <!-- Template item-->
+      <paper-item>
+        <paper-item-body two-line>
+          <div>{{room.name}}</div>
+          <div secondary>{{room.topic}}</div>
+        </paper-item-body>
+      </paper-item>
+      
+    </template>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'gdg-room-list',
+      properties: {
+        // Array delle rooms da firebase
+        rooms: {
+          type: Array
+        }
+      }
+    });
+  </script>
+
+</dom-module>

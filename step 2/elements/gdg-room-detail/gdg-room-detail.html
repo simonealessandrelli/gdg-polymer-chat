@@ -5,14 +5,14 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
-<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
 <!-- Google web elements -->
 <link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
 
 
 <dom-module id="gdg-room-detail">
   <template>
+
     <style>
       :host {
         @apply(--layout-vertical);
@@ -21,29 +21,24 @@
         @apply(--layout-flex);
         overflow: auto;
       }
+
       paper-input {
         padding: 10px;
       }
     </style>
 
-    <!-- Recupera i messaggi della stanza selezionata -->
+    <!-- Recupera i messaggi della stanza 0 da firebase -->
     <firebase-collection
-      location="{{messagesLocation}}"
+      location="https://gdg-example-chat.firebaseio.com/rooms/0/messages"
       data="{{messages}}">
     </firebase-collection>
-
-    <!-- Toolbar -->
-    <paper-toolbar>
-      <paper-icon-button  icon="mail"></paper-icon-button>
-      <div class="title">{{selectedRoom.name}}</div>
-    </paper-toolbar>
 
     <div class="list">
       <!-- Cicla sulla property rooms in binding con firebase -->
       <template is="dom-repeat"
                 items="{{messages}}"
                 as="message">
-        <!-- Template item -->
+        <!-- Template item-->
         <paper-item>
           <paper-item-body two-line>
             <div>{{message.user}}</div>
@@ -54,18 +49,14 @@
     </div>
     <!-- Input per nuovo messaggio -->
     <paper-input label="New Message:" on-keyup="_handleInput"></paper-input>
+
   </template>
 
   <script>
     Polymer({
       is: 'gdg-room-detail',
       properties: {
-        // Stanza selezionata
-        selectedRoom: {
-          type: Object,
-          observer: '_selectedRoomChanged'
-        },
-        // Array messaggi room selezionata
+        // Array messaggi room 0
         messages: {
           type: Array
         },
@@ -73,11 +64,7 @@
         lastMessage: {
           type: Object
         },
-        //Indirizzo stanza
-        messagesLocation: {
-          type: String
-        },
-        //User
+        //Dati utente (per ora utiliziamo un semplice oggetto )
         user: {
           type: Object,
           value: function(){
@@ -87,19 +74,7 @@
           }
         }
       },
-      //Observer selectedRoom
-      _selectedRoomChanged: function(room){
-        console.log(room);
-        if (room){
-          this.set('messagesLocation', [
-            'https://gdg-example-chat.firebaseio.com',
-            'rooms',
-            room.__firebaseKey__,
-            'messages'
-          ].join('/'));
-        }
-      },
-      //listen to on-keyup event
+      //listener per il tasto Enter sul paper-input
       _handleInput: function(e) {
         if (e.keyCode == 13) {
           this.push('messages', {
