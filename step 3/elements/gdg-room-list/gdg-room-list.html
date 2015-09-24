@@ -18,6 +18,14 @@
       }
     </style>
 
+    <!-- Recupera i dati delle stanze dall'URL di firebase -->
+    <firebase-collection
+      orderByChild="name"
+      location="https://gdg-example-chat.firebaseio.com/rooms"
+      data="{{rooms}}"
+      on-firebase-value="_firebaseLoaded">
+    </firebase-collection>
+
     <!-- Toolbar -->
     <paper-toolbar>
       <paper-icon-button icon="inbox" id="inbox"></paper-icon-button>
@@ -50,10 +58,10 @@
       properties: {
         // array delle stanze da firebase
         rooms: {
-          type: Array
+          type: Array,
+          observer: '_roomsChanged'
         },
         // stanza selezionata tramite array-selector
-        //
         selectedRoom: {
           type: Object,
           notify: true
@@ -64,11 +72,21 @@
           observer: '_selectedIndexChanged'
         }
       },
+      //Ready callback
+      ready: function() {
+        console.log('gdg-room-list is ready!');
+      },
       //Observer della proprietà selecteIndex modificata
       //dall'element paper-menu
       _selectedIndexChanged: function(idx){
         //Richiamo il metodo select dell'elemento selector
         this.$.selector.select(this.rooms[idx]);
+      },
+      //Observer della proprietà rooms
+      //viene utilizzato per inizializzare il _selectedIndex
+      _firebaseLoaded: function(){
+        this._selectedIndex = 0;
+        //this._selectedIndexChanged(0);
       }
     });
   </script>

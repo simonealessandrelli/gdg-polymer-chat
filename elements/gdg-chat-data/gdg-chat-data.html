@@ -1,0 +1,49 @@
+<!-- Google Web elements-->
+<link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
+<link rel="import" href="../../bower_components/firebase-element/firebase-auth.html">
+<!-- Neon elements -->
+<link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
+<!-- Paper elements -->
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<!-- Custom elements -->
+<link rel="import" href="gdg-chat-behavior.html">
+
+<dom-module id="gdg-chat-data">
+  <template>
+    <!-- Recupera i dati delle stanze dall'URL di firebase -->
+    <firebase-collection
+      id="rooms-collection"
+      orderByChild="name"
+      location="{{_computeRoomsLocation(fbLocation)}}"
+      data="{{rooms}}"
+      on-firebase-value="_onRoomsLoaded">
+    </firebase-collection>
+
+    <firebase-collection
+    id="messages-collection"
+      orderByChild="user"
+      location="{{_computeMessagesLocation(fbLocation, selectedRoom)}}"
+      data="{{messages}}"
+      on-firebase-value="_onMessagesLoaded">
+    </firebase-collection>
+  </template>
+  <script>
+    Polymer({
+      is: 'gdg-chat-data',
+      behaviors: [
+        GdgChatBehavior
+      ],
+      //Callback per intercettare l'evento di completato
+      //caricamento della query delle stanze
+      _onRoomsLoaded: function(){
+        this.fire('rooms-loaded', this.$.roomsCollection);
+      },
+      //Callback per intercettare l'evento di completato
+      //caricamento della query dei messaggi
+      _onMessagesLoaded: function(){
+        this.fire('messages-loaded', this.$.messagesCollection);
+      }
+    });
+  </script>
+</dom-module>

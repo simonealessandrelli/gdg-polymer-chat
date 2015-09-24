@@ -1,0 +1,30 @@
+<!-- Iron elements -->
+<link rel="import" href="../../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
+<!-- Custom elements -->
+<link rel="import" href="../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
+<link rel="import" href="../gdg-room-list/gdg-room-list.html">
+<link rel="import" href="../gdg-room-detail/gdg-room-detail.html">
+
+<dom-module id="gdg-chat-view">
+
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <!-- Drawer Panel -->
+    <paper-drawer-panel id="paperDrawerPanel">
+      <!-- Room list -->
+      <gdg-room-list drawer selected-room="{{selectedRoom}}"></gdg-room-list>
+      <!-- Room detail -->
+      <gdg-room-detail main selected-room="{{selectedRoom}}"></gdg-room-detail>
+    </paper-drawer-panel>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'gdg-chat-view'
+    });
+  </script>
+</dom-module>

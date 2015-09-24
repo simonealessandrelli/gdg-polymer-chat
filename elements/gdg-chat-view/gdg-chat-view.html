@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
 <link rel="import" href="../gdg-room-list/gdg-room-list.html">
 <link rel="import" href="../gdg-room-detail/gdg-room-detail.html">
+<link rel="import" href="../gdg-chat-data/gdg-chat-data.html">
 
 <dom-module id="gdg-chat-view">
 
@@ -13,18 +14,35 @@
         display: block;
       }
     </style>
+    <!-- Chat Data -->
+    <gdg-chat-data fb-location="https://gdg-example-chat.firebaseio.com"
+                   rooms="{{rooms}}"
+                   messages="{{messages}}"
+                   selected-room="{{selectedRoom}}">
+    </gdg-chat-data>
     <!-- Drawer Panel -->
     <paper-drawer-panel id="paperDrawerPanel">
       <!-- Room list -->
-      <gdg-room-list drawer selected-room="{{selectedRoom}}"></gdg-room-list>
+      <gdg-room-list drawer rooms="{{rooms}}" selected-room="{{selectedRoom}}"></gdg-room-list>
       <!-- Room detail -->
-      <gdg-room-detail main selected-room="{{selectedRoom}}"></gdg-room-detail>
+      <gdg-room-detail main messages={{messages}} selected-room="{{selectedRoom}}"></gdg-room-detail>
     </paper-drawer-panel>
   </template>
 
   <script>
     Polymer({
-      is: 'gdg-chat-view'
+      is: 'gdg-chat-view',
+      listeners: {
+        'rooms-loaded' : 'roomsLoaded'
+      },
+      //Dopo che le stanze da firebase vengono
+      //caricate imposta come selezionata la prima stanza
+      roomsLoaded: function(rooms){
+        //Set default rooms to first
+        if (this.rooms.length > 0){
+          this.selectedRoom = this.rooms[0];
+        }
+      }
     });
   </script>
 </dom-module>

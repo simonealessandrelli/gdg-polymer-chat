@@ -7,6 +7,8 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<!-- Google web elements -->
+<link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
 
 
 <dom-module id="gdg-room-detail">
@@ -23,6 +25,12 @@
         padding: 10px;
       }
     </style>
+
+    <!-- Recupera i messaggi della stanza selezionata -->
+    <firebase-collection
+      location="{{messagesLocation}}"
+      data="{{messages}}">
+    </firebase-collection>
 
     <!-- Toolbar -->
     <paper-toolbar>
@@ -54,7 +62,8 @@
       properties: {
         // Stanza selezionata
         selectedRoom: {
-          type: Object
+          type: Object,
+          observer: '_selectedRoomChanged'
         },
         // Array messaggi room selezionata
         messages: {
@@ -76,6 +85,18 @@
               name: 'simone'
             };
           }
+        }
+      },
+      //Observer selectedRoom
+      _selectedRoomChanged: function(room){
+        console.log(room);
+        if (room){
+          this.set('messagesLocation', [
+            'https://gdg-example-chat.firebaseio.com',
+            'rooms',
+            room.__firebaseKey__,
+            'messages'
+          ].join('/'));
         }
       },
       //listen to on-keyup event

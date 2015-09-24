@@ -1,0 +1,54 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<script>
+
+/** @polymerBehavior */
+GdgChatBehavior = {
+  properties: {
+    // Array delle stanze caricate da firebase-collection
+    // Host <-> Child
+    // Le modifiche vengono propagate all'Host
+    rooms: {
+      type: Array,
+      notify: true
+    },
+
+    // Array dei messaggi selezionati da firebase-collection
+    // relativi alla stanza selezionata
+    // Le modifiche vengono propagate all'Host
+    messages: {
+      type: Array,
+      notify: true
+    },
+
+    // Stanza selezionata.
+    selectedRoom: {
+      type: Object
+    },
+
+    //URL firebase
+    fbLocation: String
+
+  },
+  //Calcola l'URL per la query dei messaggi nella stanza
+  //della chat selezionata
+  //Compute binding
+  _computeMessagesLocation: function(fbLocation, room){
+    if (!room) return;
+    return [
+      fbLocation,
+      'rooms',
+      room.__firebaseKey__,
+      'messages'
+    ].join('/');
+  },
+  //Calcola l'URL per la query delle stanze disponibili
+  //in chat.
+  //Compute binding
+  _computeRoomsLocation: function(fbLocation){
+    return [
+      fbLocation,
+      'rooms'
+    ].join('/');
+  }
+};
+</script>
