@@ -11,20 +11,13 @@
     <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
   
     <!-- Custom elements -->
-    <link rel="import" href="bower_components/paper-drawer-panel/paper-drawer-panel.html">
     <link rel="import" href="elements/gdg-room-list/gdg-room-list.html">
-    <link rel="import" href="elements/gdg-room-detail/gdg-room-detail.html">
   
     <link rel="stylesheet" href="styles.css">
   </head>
   
   <body unresolved>
-    <!-- Drawer Panel -->
-    <paper-drawer-panel>
-      <!-- Lista stanze -->
-      <gdg-room-list drawer></gdg-room-list>
-      <!-- Dettaglio stanza con messaggi -->
-      <gdg-room-detail main></gdg-room-detail>
-    </paper-drawer-panel>
+    <!-- Application entry point-->
+    <gdg-room-list></gdg-room-list>
   </body>
 </html>

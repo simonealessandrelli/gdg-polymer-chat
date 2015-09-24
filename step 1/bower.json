@@ -1,0 +1,13 @@
+{
+  "name": "gdg-polymer-chat",
+  "description": "",
+  "homepage": "",
+  "keywords": [],
+  "author": "",
+  "private": true,
+  "dependencies": {
+    "firebase-element": "GoogleWebComponents/firebase-element#~1.0.6",
+    "iron-elements": "PolymerElements/iron-elements#^1.0.0",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.1"
+  }
+}

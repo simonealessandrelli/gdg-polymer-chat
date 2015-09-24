@@ -1,7 +1,6 @@
-<!-- Paper elements -->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
-<!-- Google web elements -->
 <link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
 
 <dom-module id="gdg-room-list">
@@ -43,7 +42,11 @@
         rooms: {
           type: Array
         }
-      }
+      },
+      //Ready callback
+      ready: function() {
+        console.log('gdg-room-list is ready!');
+      },
     });
   </script>
 
